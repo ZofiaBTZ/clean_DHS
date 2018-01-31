@@ -18,7 +18,7 @@ def map2dict(map_file, var_levels, var_names, words):
         line = re.sub('\(m\)', '', line)
         line = re.sub('\(', '', line)
         line = re.sub('\)', '', line)
-        if (('MV' in line[0:2]) or ('SM' in line[0:2])) and any(word in line for word in words ):
+        if (('MV' in line[0:2]) or ('SM' in line[0:2]) or ('MG' in line[0:2]) ): 
             if not(var == ""):
                 dhs_recode[var] ={ "desc":desc, "recode":var_dict}
                 dhs_recode_rev[var] ={ "desc":desc, "recode":var_dict_rev}
@@ -43,12 +43,16 @@ def map2dict(map_file, var_levels, var_names, words):
 
     with open(var_levels, 'w+') as f:
         for key, value in dhs_recode.items() :
-            for key1, value1 in value['recode'].items():
-                f.write(key + ' ,' + value['desc']+ ', ' + key1 + ' , ' + value1 + '\n')
+            if any((word in value['desc']) for word in words) \
+               and ('NA - ' not in value['desc']):
+                for key1, value1 in value['recode'].items():
+                    f.write(key + ' ,' + value['desc']+ ', ' + key1 + ' , ' + value1 + '\n')
 
     with open(var_names, 'w+') as f:
         for key, value in dhs_recode.items() :
-            f.write(key +' , ' + value['desc'] + '\n')
+            if (any(word in value['desc']) for word in words) \
+               and ('NA - ' not in value['desc']):
+                f.write(key +' , ' + value['desc'] + '\n')
 
 
 def main():
