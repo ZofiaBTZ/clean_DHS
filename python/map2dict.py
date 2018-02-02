@@ -3,8 +3,6 @@ import re
 import argparse
 from collections import defaultdict
 
-
-#read in the path as an arg
 def map2dict(map_file, var_levels, var_names, words):
     with open(map_file) as f:
         content = f.readlines()
