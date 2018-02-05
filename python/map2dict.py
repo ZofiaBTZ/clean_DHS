@@ -40,6 +40,7 @@ def map2dict(map_file, var_levels, var_names, words):
         #print dhs_recode['MV130']['recode']
 
     with open(var_levels, 'w+') as f:
+        f.write('var, var_name, level, level_name \n')
         for key, value in dhs_recode.items() :
             if any((word in value['desc']) for word in words) \
                and ('NA - ' not in value['desc']):
@@ -47,6 +48,7 @@ def map2dict(map_file, var_levels, var_names, words):
                     f.write(key + ' ,' + value['desc']+ ', ' + key1 + ' , ' + value1 + '\n')
 
     with open(var_names, 'w+') as f:
+        f.write('var, var_name \n')
         for key, value in dhs_recode.items() :
             if (any(word in value['desc']) for word in words) \
                and ('NA - ' not in value['desc']):
